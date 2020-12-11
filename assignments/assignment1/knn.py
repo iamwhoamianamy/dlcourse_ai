@@ -74,10 +74,15 @@ class KNN:
         num_test = X.shape[0]
         dists = np.zeros((num_test, num_train), np.float32)
 
+        neg_feat = np.transpose(np.sum(self.train_X, axis=1))
+
         for i_test in range(num_test):
             # TODO: Fill the whole row of dists[i_test]
             # without additional loops or list comprehensions
-            dists[i_test] = np.absolute(self.train_X - np.transpose(X)).sum()
+            sum_test = np.sum(X[i_test])
+            i_row = np.full((1, num_train), sum_test)
+
+            dists[i_test] = np.absolute(i_row - neg_feat)
         return dists
 
     def compute_distances_no_loops(self, X):
